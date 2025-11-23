@@ -18,6 +18,12 @@ struct _Person {
 DEFINE_VARIABLE
 volatile char pattern[100] = '/foo/'
 
+define_module 'mExample' example(vdvFoo, dvFoo)
+
+DEFINE_START {
+    
+}
+
 DEFINE_EVENT
 
 button_event[dvTP, 1] {

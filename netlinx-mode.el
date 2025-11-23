@@ -198,11 +198,11 @@
    ;; Literals - strings
    :language 'netlinx
    :feature 'string
-   '((string_literal) @font-lock-string-face
+   '(((string_literal) @font-lock-builtin-face
+      (:match "^'/.*/'$" @font-lock-builtin-face))
+     (string_literal) @font-lock-string-face
      (escape_sequence) @font-lock-escape-face
-     "\"" @netlinx-string-quote-face
-     ((string_literal) @font-lock-builtin-face
-      (:match "^'/.*/'$" @font-lock-builtin-face)))
+     "\"" @netlinx-string-quote-face)
 
    ;; Literals - numbers
    :language 'netlinx
@@ -305,6 +305,9 @@
                   (keyword string preprocessor)
                   (constant number type boolean)
                   (function variable property operator bracket delimiter error)))
+
+    ;; Improve incremental parsing
+    (setq-local treesit-font-lock-recompute-features t)
 
     ;; Enable tree-sitter
     (treesit-major-mode-setup)))
