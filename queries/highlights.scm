@@ -9,12 +9,15 @@
 ((identifier) @constant
  (#match? @constant "^[A-Z][A-Z\\d_]*$"))
 
+((identifier) @variable.special
+ (#match? @variable.special "^v?dv[a-zA-Z_][a-zA-Z\\d_]*$"))
+
 (system_constant) @constant.builtin
 
 ;; ============================================================================
 ;; VARIABLES
 ;; ============================================================================
-; (system_variable) @variable.builtin
+(system_variable) @variable
 (compiler_variable) @variable.builtin
 
 ;; ============================================================================
@@ -215,9 +218,11 @@
 ;; LITERALS
 ;; ============================================================================
 (string_literal) @string
+(escape_sequence) @string.escape
 (number_literal) @number
 (device_literal) @number
 "\"" @string.special
+
 ((string_literal) @string.regex
   (#match? @string.regex "^'/.*/'$"))
 
@@ -229,9 +234,10 @@
 ;; ============================================================================
 ;; TYPES
 ;; ============================================================================
-(type_identifier) @type.custom
+(type_identifier) @constructor
 (primitive_type) @type
-(structured_type) @type.builtin
+(structured_type) @type
+(system_type) @type
 
 ;; ============================================================================
 ;; PROPERTIES
@@ -243,15 +249,12 @@
 ;; ============================================================================
 (call_expression
   function: (system_function) @function.builtin)
+
 (call_expression
   function: (identifier) @function)
-; (call_expression
-;   function: (field_expression
-;     field: (field_identifier) @function))
+
 (function_definition
   name: (identifier) @function)
-; (function_declarator
-;   declarator: (identifier) @function)
 
 ;; ============================================================================
 ;; FUNCTION PARAMETERS
@@ -276,6 +279,12 @@
 ;; COMMENTS
 ;; ============================================================================
 (comment) @comment
+
+;; ============================================================================
+;; ERRORS
+;; ============================================================================
+(ERROR) @error
+(MISSING) @missing
 
 ;; ============================================================================
 ;; SNAPI HIGHLIGHTS
