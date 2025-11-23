@@ -19,6 +19,7 @@
 (require 'treesit)
 
 (defvar netlinx-mode--font-lock-settings
+  "Return tree-sitter font-lock settings for NetLinx."
   (treesit-font-lock-rules
    :language 'netlinx
    :feature 'comment
@@ -181,8 +182,7 @@
 
    :language 'netlinx
    :feature 'delimiter
-   '(["." ";" "," ":"] @font-lock-delimiter-face))
-  "Tree-sitter font-lock settings for NetLinx.")
+   '(["." ";" "," ":"] @font-lock-delimiter-face)))
 
 (provide 'netlinx-mode-font-lock)
 
