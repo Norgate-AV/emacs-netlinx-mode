@@ -98,7 +98,7 @@ The file path is configured via `netlinx-mode-help-file'."
   (netlinx-mode--ensure-grammar)
 
   ;; Keybindings
-  (define-key netlinx-mode-map (kbd "C-c C-h") #'netlinx-open-help)
+  (define-key netlinx-mode-map (kbd "C-c C-d") #'netlinx-open-help)
 
   ;; Check if the NetLinx grammar is installed (t forces fresh check after installation)
   (if (treesit-ready-p 'netlinx t)

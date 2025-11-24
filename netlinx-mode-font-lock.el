@@ -1,19 +1,15 @@
-;;; netlinx-mode-font-lock.el --- Font-lock settings for NetLinx mode -*- lexical-binding: t; -*-
+;;; netlinx-mode-font-lock.el --- Font-lock settings for NetLinx mode -*- lexical-binding: t; no-byte-compile: t; -*-
 
 ;; Copyright (C) 2024 Norgate AV
 
 ;; Author: Norgate AV
 ;; Maintainer: Norgate AV
-;; Version: 0.1.0
-;; Package-Requires: ((emacs "29.1"))
-;; Keywords: languages, netlinx, amx, harman
-;; URL: https://github.com/Norgate-AV/emacs-netlinx-mode
-;; SPDX-License-Identifier: MIT
 
 ;;; Commentary:
 
 ;; This file provides font-lock (syntax highlighting) settings for NetLinx mode
 ;; using tree-sitter. It defines custom faces and highlighting rules.
+;; This is an internal library for netlinx-mode.el and is not a standalone package.
 
 ;;; Code:
 

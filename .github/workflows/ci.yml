@@ -34,25 +34,11 @@ jobs:
 
       - name: Byte compile
         run: |
-          ./scripts/test-compile.sh
-
-      - name: Install package-lint
-        run: |
-          emacs -Q --batch \
-            --eval "(require 'package)" \
-            --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
-            --eval "(package-initialize)" \
-            --eval "(package-refresh-contents)" \
-            --eval "(package-install 'package-lint)"
+          ./scripts/compile.sh
 
       - name: Run package-lint
         run: |
-          emacs -Q --batch \
-            --eval "(require 'package)" \
-            --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
-            --eval "(package-initialize)" \
-            --eval "(require 'package-lint)" \
-            -f package-lint-batch-and-exit netlinx-mode.el netlinx-mode-font-lock.el
+          ./scripts/lint.sh
 
       - name: Check documentation
         run: |
