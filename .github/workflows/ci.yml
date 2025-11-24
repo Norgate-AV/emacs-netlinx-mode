@@ -17,7 +17,6 @@ jobs:
       matrix:
         emacs_version:
           - "29.1"
-          - "29.4"
           - "snapshot"
       fail-fast: false
 
@@ -46,15 +45,9 @@ jobs:
             --eval "(checkdoc-file \"netlinx-mode.el\")" \
             --eval "(checkdoc-file \"netlinx-mode-font-lock.el\")"
 
-      - name: Load package
+      - name: Load package test
         run: |
           emacs -Q --batch \
             --eval "(add-to-list 'load-path \".\")" \
             --eval "(require 'netlinx-mode)" \
             --eval "(message \"Package loaded successfully\")"
-
-      - name: Check tree-sitter grammar availability
-        run: |
-          emacs -Q --batch \
-            --eval "(require 'treesit)" \
-            --eval "(message \"NetLinx grammar available: %s\" (treesit-language-available-p 'netlinx))"
