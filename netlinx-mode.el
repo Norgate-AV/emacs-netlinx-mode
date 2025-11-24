@@ -5,7 +5,7 @@
 ;; Author: Norgate AV
 ;; Maintainer: Norgate AV
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "29.1") (yasnippet "0.14.0"))
+;; Package-Requires: ((emacs "29.1") (yasnippet "0.14.0") (company "0.9.13"))
 ;; Keywords: languages, netlinx, amx, harman
 ;; URL: https://github.com/Norgate-AV/emacs-netlinx-mode
 ;; SPDX-License-Identifier: MIT
@@ -85,18 +85,42 @@ If set, enables quick access to NetLinx documentation via \\[netlinx-open-help].
     (treesit-install-language-grammar 'netlinx)
     (message "NetLinx: Grammar installation complete")))
 
-;; Yasnippet integration
-(require 'yasnippet)
+;; Auto-install yasnippet if not present
+(defun netlinx-mode--ensure-yasnippet ()
+  "Ensure yasnippet is installed, installing if necessary."
+  (unless (require 'yasnippet nil t)
+    (message "NetLinx: Installing yasnippet...")
+    (package-refresh-contents)
+    (package-install 'yasnippet)
+    (require 'yasnippet)))
 
+;; Auto-install company if not present
+(defun netlinx-mode--ensure-company ()
+  "Ensure company is installed, installing if necessary."
+  (unless (require 'company nil t)
+    (message "NetLinx: Installing company...")
+    (package-refresh-contents)
+    (package-install 'company)
+    (require 'company)))
+
+;; Yasnippet integration
 (defun netlinx-mode--setup-snippets ()
   "Setup yasnippet snippets for netlinx-mode."
+  (netlinx-mode--ensure-yasnippet)
+  (netlinx-mode--ensure-company)
+  ;; Enable yasnippet minor mode first
+  (yas-minor-mode 1)
+  ;; Then load the snippets - always relative to where netlinx-mode.el is
   (let ((snippets-dir (expand-file-name
                        "snippets"
                        (file-name-directory
-                        (or load-file-name buffer-file-name)))))
+                        (locate-library "netlinx-mode")))))
     (when (file-directory-p snippets-dir)
       (add-to-list 'yas-snippet-dirs snippets-dir t)
-      (yas-load-directory snippets-dir))))
+      (yas-reload-all)))
+  ;; Setup company-mode with yasnippet backend
+  (setq-local company-backends '((company-yasnippet company-capf company-dabbrev-code)))
+  (company-mode 1))
 
 ;;; Commands
 
@@ -120,7 +144,7 @@ The file path is configured via `netlinx-mode-help-file'."
   ;; Ensure grammar is installed
   (netlinx-mode--ensure-grammar)
 
-  ;; Setup yasnippet integration if available
+  ;; Setup yasnippet integration
   (netlinx-mode--setup-snippets)
 
   ;; Keybindings
