@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Push Handler
+# key: push
+# --
+push: { $0 }

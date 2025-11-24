@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Local Var
+# key: local_var
+# --
+local_var $0

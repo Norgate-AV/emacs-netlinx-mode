@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Break Statement
+# key: break
+# --
+break$0

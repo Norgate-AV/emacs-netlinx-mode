@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Double
+# key: double
+# --
+double ${1:name}$0

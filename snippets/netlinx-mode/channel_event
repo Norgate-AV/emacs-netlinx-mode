@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Channel Event Handler
+# key: channel_event
+# --
+channel_event[${1:expression}]$0

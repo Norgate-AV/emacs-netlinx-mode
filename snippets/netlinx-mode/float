@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Float
+# key: float
+# --
+float ${1:name}$0

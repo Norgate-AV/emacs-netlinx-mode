@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: #Else Directive
+# key: #else
+# --
+#ELSE$0

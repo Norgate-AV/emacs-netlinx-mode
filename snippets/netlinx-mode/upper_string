@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: upper_string
+# key: upper_string
+# --
+upper_string(${1:variable})$0

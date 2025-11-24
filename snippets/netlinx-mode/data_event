@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Data Event Handler
+# key: data_event
+# --
+data_event[${1:expression}]$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: format
+# key: format
+# --
+format('%${1:format_string}', ${2:argument})$0

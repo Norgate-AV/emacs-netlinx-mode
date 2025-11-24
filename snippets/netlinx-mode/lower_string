@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: lower_string
+# key: lower_string
+# --
+lower_string(${1:variable})$0

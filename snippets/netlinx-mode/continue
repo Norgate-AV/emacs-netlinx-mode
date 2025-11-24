@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Continue Statement
+# key: continue
+# --
+continue$0

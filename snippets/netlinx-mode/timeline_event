@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Timeline Event Handler
+# key: timeline_event
+# --
+timeline_event[${1:expression}]$0

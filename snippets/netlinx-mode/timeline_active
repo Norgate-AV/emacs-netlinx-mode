@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: timeline_active
+# key: timeline_active
+# --
+timeline_active(${1:id})$0

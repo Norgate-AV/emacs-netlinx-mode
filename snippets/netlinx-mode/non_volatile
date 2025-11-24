@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Non Volatile
+# key: non_volatile
+# --
+non_volatile $0

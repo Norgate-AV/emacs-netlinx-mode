@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Send Level
+# key: send_level
+# --
+send_level ${1:device}, ${2:value}$0

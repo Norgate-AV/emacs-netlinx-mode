@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: itoa
+# key: itoa
+# --
+itoa(${1:integer})$0

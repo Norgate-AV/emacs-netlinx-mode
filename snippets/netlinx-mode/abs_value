@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: abs_value
+# key: abs_value
+# --
+abs_value(${1:number})$0

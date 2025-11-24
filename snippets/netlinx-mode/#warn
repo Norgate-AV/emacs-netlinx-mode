@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: #Warn Directive
+# key: #warn
+# --
+#warn '${1:message}'$0

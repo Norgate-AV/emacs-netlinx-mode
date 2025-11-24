@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Persistent
+# key: persistent
+# --
+persistent $0

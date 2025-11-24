@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Define Module
+# key: define_module
+# --
+define_module '${1:module}' ${2:id}(${3:arguments})$0

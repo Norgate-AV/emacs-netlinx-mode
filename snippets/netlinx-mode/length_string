@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: length_string
+# key: length_string
+# --
+length_string(${1:variable})$0

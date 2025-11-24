@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Command Handler
+# key: command
+# --
+command: { $0 }

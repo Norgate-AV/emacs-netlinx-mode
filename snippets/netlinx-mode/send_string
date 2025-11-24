@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Send String
+# key: send_string
+# --
+send_string ${1:device}, ${2:data}$0

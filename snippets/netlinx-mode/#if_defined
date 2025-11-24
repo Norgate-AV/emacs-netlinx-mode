@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: #If Defined Directive
+# key: #if_defined
+# --
+#IF_DEFINED ${1:name}$0

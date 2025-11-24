@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Signed Long
+# key: slong
+# --
+slong ${1:name}$0

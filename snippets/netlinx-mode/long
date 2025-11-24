@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Long
+# key: long
+# --
+long ${1:name}$0

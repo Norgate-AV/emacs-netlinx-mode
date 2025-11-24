@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: itohex
+# key: itohex
+# --
+itohex(${1:integer})$0

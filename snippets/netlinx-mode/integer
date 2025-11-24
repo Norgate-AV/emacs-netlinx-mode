@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Integer
+# key: integer
+# --
+integer ${1:name}$0

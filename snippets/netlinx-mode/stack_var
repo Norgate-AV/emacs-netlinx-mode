@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Stack Var
+# key: stack_var
+# --
+stack_var $0

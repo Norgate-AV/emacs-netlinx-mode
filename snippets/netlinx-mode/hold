@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Hold Handler
+# key: hold
+# --
+hold[${1:time}]: { $0 }

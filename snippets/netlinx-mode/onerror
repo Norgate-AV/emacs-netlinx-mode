@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: OnError Handler
+# key: onerror
+# --
+onerror: { $0 }

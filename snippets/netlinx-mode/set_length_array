@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: set_length_array
+# key: set_length_array
+# --
+set_length_array(${1:variable},${2:length})$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: timeline_create
+# key: timeline_create
+# --
+timeline_create(${1:id}, ${2:time_array}, ${3:time_array_size}, ${4:absolute}, ${5:repeat})$0

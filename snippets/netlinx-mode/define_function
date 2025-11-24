@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Define Function
+# key: define_function
+# --
+define_function ${1:return_type} ${2:name}(${3:parameters}) { $0 }

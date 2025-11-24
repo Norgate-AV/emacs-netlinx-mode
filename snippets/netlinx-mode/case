@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Case Statement
+# key: case
+# --
+case ${1:value}: { $0 }

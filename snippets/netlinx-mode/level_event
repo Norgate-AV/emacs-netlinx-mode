@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Level Event Handler
+# key: level_event
+# --
+level_event[${1:expression}]$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Offline Handler
+# key: offline
+# --
+offline: { $0 }

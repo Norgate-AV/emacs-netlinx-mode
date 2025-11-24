@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: timeline_kill
+# key: timeline_kill
+# --
+timeline_kill(${1:id})$0

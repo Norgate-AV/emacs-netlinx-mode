@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: find_string
+# key: find_string
+# --
+find_string(${1:haystack},${2:needle},${3:startpos})$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: For Loop
+# key: for
+# --
+for (${1:var} = ${2:start}; ${1:var} <= ${3:end}; ${1:var}++) { $0 }

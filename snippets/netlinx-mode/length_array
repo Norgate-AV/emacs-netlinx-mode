@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: length_array
+# key: length_array
+# --
+length_array(${1:variable})$0

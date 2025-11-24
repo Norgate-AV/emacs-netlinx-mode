@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Custom Event Handler
+# key: custom_event
+# --
+custom_event[${1:expression}]$0

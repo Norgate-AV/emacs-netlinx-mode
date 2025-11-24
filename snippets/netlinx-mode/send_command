@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Send Command
+# key: send_command
+# --
+send_command ${1:device}, ${2:data}$0

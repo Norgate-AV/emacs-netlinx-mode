@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Button Event Handler
+# key: button_event
+# --
+button_event[${1:expression}]$0

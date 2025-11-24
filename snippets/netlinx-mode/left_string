@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: left_string
+# key: left_string
+# --
+left_string(${1:variable},${2:length})$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Active Statement
+# key: active
+# --
+active (${1:expression}): { $0 }

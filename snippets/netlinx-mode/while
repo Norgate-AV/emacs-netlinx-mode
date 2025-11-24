@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: While Loop
+# key: while
+# --
+while (${1:expression}) { $0 }

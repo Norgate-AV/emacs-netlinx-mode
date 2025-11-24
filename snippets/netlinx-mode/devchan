@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Devchan
+# key: devchan
+# --
+devchan ${1:name}$0

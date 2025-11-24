@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Signed Integer
+# key: sinteger
+# --
+sinteger ${1:name}$0

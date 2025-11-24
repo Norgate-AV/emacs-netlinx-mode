@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: #Define Directive
+# key: #define
+# --
+#DEFINE ${1:name} ${2:value}$0

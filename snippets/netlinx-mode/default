@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Default Statement
+# key: default
+# --
+default: { $0 }

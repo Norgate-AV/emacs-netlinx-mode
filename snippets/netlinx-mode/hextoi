@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: hextoi
+# key: hextoi
+# --
+hextoi(${1:string})$0

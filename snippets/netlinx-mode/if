@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: If Statement
+# key: if
+# --
+if (${1:expression}) { $0 }

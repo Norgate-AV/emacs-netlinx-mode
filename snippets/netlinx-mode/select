@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Select Statement
+# key: select
+# --
+select { $0 }

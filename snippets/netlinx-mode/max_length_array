@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: max_length_array
+# key: max_length_array
+# --
+max_length_array(${1:variable})$0

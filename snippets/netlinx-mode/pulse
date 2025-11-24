@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Pulse Statement
+# key: pulse
+# --
+pulse[${1:expression}]$0

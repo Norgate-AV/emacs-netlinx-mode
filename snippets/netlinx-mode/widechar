@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Wide Char
+# key: widechar
+# --
+widechar ${1:name}$0

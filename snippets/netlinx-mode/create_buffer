@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Create Buffer
+# key: create_buffer
+# --
+create_buffer ${1:device}, ${2:variable}$0

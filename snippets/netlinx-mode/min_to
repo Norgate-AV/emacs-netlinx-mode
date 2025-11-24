@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Min To Statement
+# key: min_to
+# --
+min_to[${1:expression}]$0

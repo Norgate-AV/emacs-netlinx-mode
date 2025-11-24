@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: type_cast
+# key: type_cast
+# --
+type_cast(${1:expression})$0

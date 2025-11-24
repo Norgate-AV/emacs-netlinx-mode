@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mid_string
+# key: mid_string
+# --
+mid_string(${1:variable},${2:startpos},${3:endpos})$0

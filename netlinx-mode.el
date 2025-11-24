@@ -5,7 +5,7 @@
 ;; Author: Norgate AV
 ;; Maintainer: Norgate AV
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "29.1"))
+;; Package-Requires: ((emacs "29.1") (yasnippet "0.14.0"))
 ;; Keywords: languages, netlinx, amx, harman
 ;; URL: https://github.com/Norgate-AV/emacs-netlinx-mode
 ;; SPDX-License-Identifier: MIT
@@ -85,6 +85,19 @@ If set, enables quick access to NetLinx documentation via \\[netlinx-open-help].
     (treesit-install-language-grammar 'netlinx)
     (message "NetLinx: Grammar installation complete")))
 
+;; Yasnippet integration
+(require 'yasnippet)
+
+(defun netlinx-mode--setup-snippets ()
+  "Setup yasnippet snippets for netlinx-mode."
+  (let ((snippets-dir (expand-file-name
+                       "snippets"
+                       (file-name-directory
+                        (or load-file-name buffer-file-name)))))
+    (when (file-directory-p snippets-dir)
+      (add-to-list 'yas-snippet-dirs snippets-dir t)
+      (yas-load-directory snippets-dir))))
+
 ;;; Commands
 
 (defun netlinx-open-help ()
@@ -106,6 +119,9 @@ The file path is configured via `netlinx-mode-help-file'."
 
   ;; Ensure grammar is installed
   (netlinx-mode--ensure-grammar)
+
+  ;; Setup yasnippet integration if available
+  (netlinx-mode--setup-snippets)
 
   ;; Keybindings
   (define-key netlinx-mode-map (kbd "C-c C-d") #'netlinx-open-help)

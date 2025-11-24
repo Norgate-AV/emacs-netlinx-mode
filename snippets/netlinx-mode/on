@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: On Handler
+# key: on
+# --
+on: { $0 }

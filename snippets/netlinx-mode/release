@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Release Handler
+# key: release
+# --
+release: { $0 } }
