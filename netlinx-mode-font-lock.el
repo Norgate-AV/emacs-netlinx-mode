@@ -17,12 +17,8 @@
 
 ;;; Code:
 
+;; Load tree-sitter support for syntax highlighting
 (require 'treesit)
-
-(defgroup netlinx nil
-  "Major mode for NetLinx using tree-sitter."
-  :group 'languages
-  :prefix "netlinx-")
 
 ;; Define custom face for device variables (dv/vdv)
 (defface netlinx-device-variable-face
