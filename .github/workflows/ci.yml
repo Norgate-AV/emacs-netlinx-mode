@@ -34,9 +34,7 @@ jobs:
 
       - name: Byte compile
         run: |
-          emacs -Q --batch \
-            --eval "(setq byte-compile-error-on-warn t)" \
-            -f batch-byte-compile netlinx-mode.el netlinx-mode-font-lock.el
+          ./scripts/test-compile.sh
 
       - name: Install package-lint
         run: |
