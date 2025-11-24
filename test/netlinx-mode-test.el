@@ -105,14 +105,16 @@
   (should (boundp 'netlinx-mode--font-lock-settings)))
 
 (ert-deftest netlinx-mode-test-font-lock-levels ()
-  "Test that font-lock feature levels are configured."
+  "Test that font-lock feature levels are configured when grammar is available."
   (with-temp-buffer
-    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore))
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
+              ((symbol-function 'treesit-parser-create) #'ignore)
+              ((symbol-function 'treesit-major-mode-setup) #'ignore))
       (netlinx-mode)
       (should (local-variable-p 'treesit-font-lock-feature-list))
-      (when (local-variable-p 'treesit-font-lock-feature-list)
-        (should (listp treesit-font-lock-feature-list))
-        (should (= (length treesit-font-lock-feature-list) 4))))))
+      (should (listp treesit-font-lock-feature-list))
+      (should (= (length treesit-font-lock-feature-list) 4)))))
 
 ;;; Integration Tests
 
