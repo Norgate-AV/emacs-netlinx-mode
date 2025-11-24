@@ -42,8 +42,9 @@
   "Test that netlinx-mode activates correctly."
   (with-temp-buffer
     (let ((treesit-language-source-alist treesit-language-source-alist))
-      ;; Silence grammar installation messages during tests
-      (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore))
+      ;; Silence grammar and snippet installation during tests
+      (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+                ((symbol-function 'netlinx-mode--setup-snippets) #'ignore))
         (netlinx-mode)
         (should (eq major-mode 'netlinx-mode))
         (should (derived-mode-p 'prog-mode))))))
@@ -51,7 +52,8 @@
 (ert-deftest netlinx-mode-test-mode-name ()
   "Test that mode line displays correct name."
   (with-temp-buffer
-    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore))
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore))
       (netlinx-mode)
       (should (equal mode-name "NetLinx")))))
 
@@ -60,7 +62,8 @@
 (ert-deftest netlinx-mode-test-axs-file-association ()
   "Test that .axs files activate netlinx-mode."
   (with-temp-buffer
-    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore))
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore))
       (setq buffer-file-name "test.axs")
       (set-auto-mode)
       (should (eq major-mode 'netlinx-mode)))))
@@ -68,7 +71,8 @@
 (ert-deftest netlinx-mode-test-axi-file-association ()
   "Test that .axi files activate netlinx-mode."
   (with-temp-buffer
-    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore))
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore))
       (setq buffer-file-name "test.axi")
       (set-auto-mode)
       (should (eq major-mode 'netlinx-mode)))))
@@ -111,6 +115,7 @@
   "Test that font-lock feature levels are configured when grammar is available."
   (with-temp-buffer
     (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
               ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
               ((symbol-function 'treesit-parser-create) #'ignore)
               ((symbol-function 'treesit-major-mode-setup) #'ignore))
@@ -144,6 +149,7 @@
   "Test that indentation is configured when mode is activated."
   (with-temp-buffer
     (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
               ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
               ((symbol-function 'treesit-parser-create) #'ignore)
               ((symbol-function 'treesit-major-mode-setup) #'ignore))
@@ -157,6 +163,7 @@
   "Test that comment-start is configured correctly."
   (with-temp-buffer
     (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
               ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
               ((symbol-function 'treesit-parser-create) #'ignore)
               ((symbol-function 'treesit-major-mode-setup) #'ignore))
@@ -168,6 +175,7 @@
   "Test that comment-end is configured correctly."
   (with-temp-buffer
     (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
               ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
               ((symbol-function 'treesit-parser-create) #'ignore)
               ((symbol-function 'treesit-major-mode-setup) #'ignore))
@@ -179,12 +187,85 @@
   "Test that comment-start-skip is configured correctly."
   (with-temp-buffer
     (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
               ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
               ((symbol-function 'treesit-parser-create) #'ignore)
               ((symbol-function 'treesit-major-mode-setup) #'ignore))
       (netlinx-mode)
       (should (local-variable-p 'comment-start-skip))
       (should (stringp comment-start-skip)))))
+
+;;; Snippet Tests
+
+(ert-deftest netlinx-mode-test-snippets-directory-exists ()
+  "Test that snippets directory exists."
+  (let* ((mode-file (locate-library "netlinx-mode"))
+         (snippets-dir (when mode-file
+                         (expand-file-name "snippets/netlinx-mode"
+                                          (file-name-directory mode-file)))))
+    (should (and snippets-dir (file-directory-p snippets-dir)))))
+
+(ert-deftest netlinx-mode-test-snippet-files-exist ()
+  "Test that key snippet files exist."
+  (let* ((mode-file (locate-library "netlinx-mode"))
+         (snippets-dir (when mode-file
+                         (expand-file-name "snippets/netlinx-mode"
+                                          (file-name-directory mode-file))))
+         (expected-snippets '("for" "while" "if" "switch" "define_function"
+                            "button_event" "data_event" "integer" "char")))
+    (dolist (snippet expected-snippets)
+      (should (file-exists-p (expand-file-name snippet snippets-dir))))))
+
+(ert-deftest netlinx-mode-test-snippet-format-valid ()
+  "Test that snippet files have valid yasnippet format."
+  (let* ((mode-file (locate-library "netlinx-mode"))
+         (snippets-dir (when mode-file
+                         (expand-file-name "snippets/netlinx-mode"
+                                          (file-name-directory mode-file))))
+         (for-snippet (expand-file-name "for" snippets-dir)))
+    (when (file-exists-p for-snippet)
+      (with-temp-buffer
+        (insert-file-contents for-snippet)
+        (goto-char (point-min))
+        ;; Check for snippet header markers
+        (should (re-search-forward "^# -\\*- mode: snippet -\\*-" nil t))
+        (should (re-search-forward "^# name: " nil t))
+        (should (re-search-forward "^# key: " nil t))
+        (should (re-search-forward "^# --$" nil t))))))
+
+(ert-deftest netlinx-mode-test-for-snippet-structure ()
+  "Test that for loop snippet has correct tab stop structure."
+  (let* ((mode-file (locate-library "netlinx-mode"))
+         (snippets-dir (when mode-file
+                         (expand-file-name "snippets/netlinx-mode"
+                                          (file-name-directory mode-file))))
+         (for-snippet (expand-file-name "for" snippets-dir)))
+    (when (file-exists-p for-snippet)
+      (with-temp-buffer
+        (insert-file-contents for-snippet)
+        (let ((content (buffer-string)))
+          ;; Should have $1 for var (appears multiple times via mirroring)
+          (should (string-match "\\${1:var}" content))
+          ;; Should have $2 for start
+          (should (string-match "\\${2:start}" content))
+          ;; Should have $3 for end
+          (should (string-match "\\${3:end}" content))
+          ;; Should have $0 for final cursor position
+          (should (string-match "\\$0" content))
+          ;; Should use $1 (not ${1:var}) for mirrors
+          (should (string-match " \\$1 <=" content))
+          (should (string-match " \\$1++" content)))))))
+
+(ert-deftest netlinx-mode-test-snippet-count ()
+  "Test that expected number of snippets exist."
+  (let* ((mode-file (locate-library "netlinx-mode"))
+         (snippets-dir (when mode-file
+                         (expand-file-name "snippets/netlinx-mode"
+                                          (file-name-directory mode-file)))))
+    (when (and snippets-dir (file-directory-p snippets-dir))
+      (let ((snippet-files (directory-files snippets-dir nil "^[^.]")))
+        ;; We should have at least 70 snippets (accounting for some variation)
+        (should (>= (length snippet-files) 70))))))
 
 (provide 'netlinx-mode-test)
 
