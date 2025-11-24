@@ -83,7 +83,7 @@ The file path is configured via `netlinx-mode-help-file'."
   (interactive)
   (if (and netlinx-mode-help-file
            (file-exists-p netlinx-mode-help-file))
-      (browse-url-default-browser (concat "file://" netlinx-mode-help-file))
+      (start-process "netlinx-help" nil "open" netlinx-mode-help-file)
     (message "NetLinx help file not configured or not found. Set `netlinx-mode-help-file' to the CHM file path.")))
 
 ;; Create a new major mode for NetLinx files called netlinx-mode
