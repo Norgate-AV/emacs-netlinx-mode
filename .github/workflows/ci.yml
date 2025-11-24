@@ -31,10 +31,6 @@ jobs:
         with:
           version: ${{ matrix.emacs_version }}
 
-      - name: Compile
-        run: |
-          ./scripts/compile.sh
-
       - name: Lint
         run: |
           ./scripts/lint.sh
@@ -42,6 +38,10 @@ jobs:
       - name: Test
         run: |
           ./scripts/test.sh
+
+      - name: Compile
+        run: |
+          ./scripts/compile.sh
 
       - name: Check documentation
         run: |

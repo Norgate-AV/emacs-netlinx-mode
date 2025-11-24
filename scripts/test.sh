@@ -9,6 +9,12 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 echo "Project root: $PROJECT_ROOT"
 echo ""
 
+# Clean up old byte-compiled files
+if compgen -G "$PROJECT_ROOT/*.elc" >/dev/null; then
+    echo "Cleaning up old byte-compiled files..."
+    rm -f "$PROJECT_ROOT"/*.elc
+fi
+
 echo "Running ERT tests..."
 (cd "$PROJECT_ROOT" && emacs -Q --batch \
     --eval "(add-to-list 'load-path \".\")" \
