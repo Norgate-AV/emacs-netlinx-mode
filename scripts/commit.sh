@@ -14,8 +14,14 @@ if [ -z "$TAG" ]; then
     exit 1
 fi
 
-git config user.name "github-actions[bot]" || { echo "Failed to configure git user.name"; exit 1; }
-git config user.email "github-actions[bot]@users.noreply.github.com" || { echo "Failed to configure git user.email"; exit 1; }
+git config user.name "github-actions[bot]" || {
+    echo "Failed to configure git user.name"
+    exit 1
+}
+git config user.email "github-actions[bot]@users.noreply.github.com" || {
+    echo "Failed to configure git user.email"
+    exit 1
+}
 
 # Determine the default branch
 # In CI with detached HEAD, get it from the remote
@@ -34,14 +40,23 @@ FILES=("CHANGELOG.md")
 for file in "${FILES[@]}"; do
     if [ -n "$(git status --porcelain "$file")" ]; then
         echo "Staging $file"
-        git add "$file" || { echo "Failed to stage $file"; exit 1; }
+        git add "$file" || {
+            echo "Failed to stage $file"
+            exit 1
+        }
     else
         echo "No changes to $file to commit"
     fi
 done
 
-git commit -m "chore: bump version to $TAG [skip ci]" || { echo "Failed to commit changes"; exit 1; }
+git commit -m "chore: bump version to $TAG [skip ci]" || {
+    echo "Failed to commit changes"
+    exit 1
+}
 echo "All changes committed to $DEFAULT_BRANCH"
 
-git push origin HEAD:"$DEFAULT_BRANCH" || { echo "Failed to push changes to $DEFAULT_BRANCH"; exit 1; }
+git push origin HEAD:"$DEFAULT_BRANCH" || {
+    echo "Failed to push changes to $DEFAULT_BRANCH"
+    exit 1
+}
 echo "Changes pushed to $DEFAULT_BRANCH"
