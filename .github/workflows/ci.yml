@@ -39,6 +39,10 @@ jobs:
         run: |
           ./scripts/lint.sh
 
+      - name: Test
+        run: |
+          ./scripts/test.sh
+
       - name: Check documentation
         run: |
           emacs -Q --batch \
