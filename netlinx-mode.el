@@ -67,10 +67,13 @@ If set, enables quick access to NetLinx documentation via \\[netlinx-open-help].
 (add-to-list 'treesit-language-source-alist
              `(netlinx ,netlinx-mode-grammar-location ,netlinx-mode-grammar-version))
 
-;; Auto-install grammar if not present
-(unless (treesit-language-available-p 'netlinx)
-  (message "Installing NetLinx tree-sitter grammar...")
-  (treesit-install-language-grammar 'netlinx))
+;; Auto-install grammar if not present (runs once when mode file is loaded)
+(defun netlinx-mode--ensure-grammar ()
+  "Ensure NetLinx grammar is installed, installing if necessary."
+  (unless (treesit-language-available-p 'netlinx)
+    (message "NetLinx: Installing tree-sitter grammar...")
+    (treesit-install-language-grammar 'netlinx)
+    (message "NetLinx: Grammar installation complete")))
 
 ;;; Commands
 
@@ -91,11 +94,14 @@ The file path is configured via `netlinx-mode-help-file'."
   "Major mode for NetLinx."
   :group 'netlinx
 
+  ;; Ensure grammar is installed
+  (netlinx-mode--ensure-grammar)
+
   ;; Keybindings
   (define-key netlinx-mode-map (kbd "C-c C-h") #'netlinx-open-help)
 
-  ;; Check if the NetLinx grammar is installed
-  (when (treesit-ready-p 'netlinx)
+  ;; Check if the NetLinx grammar is installed (t forces fresh check after installation)
+  (when (treesit-ready-p 'netlinx t)
     ;; Create parser
     (treesit-parser-create 'netlinx)
 
