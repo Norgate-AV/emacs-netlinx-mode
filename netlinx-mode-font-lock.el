@@ -8,7 +8,7 @@
 ;;; Commentary:
 
 ;; This file provides font-lock (syntax highlighting) settings for NetLinx mode
-;; using tree-sitter. It defines custom faces and highlighting rules.
+;; using tree-sitter.  It defines custom faces and highlighting rules.
 ;; This is an internal library for netlinx-mode.el and is not a standalone package.
 
 ;;; Code:

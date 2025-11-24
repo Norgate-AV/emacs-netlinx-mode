@@ -32,11 +32,11 @@ jobs:
         with:
           version: ${{ matrix.emacs_version }}
 
-      - name: Byte compile
+      - name: Compile
         run: |
           ./scripts/compile.sh
 
-      - name: Run package-lint
+      - name: Lint
         run: |
           ./scripts/lint.sh
 
@@ -46,7 +46,7 @@ jobs:
             --eval "(checkdoc-file \"netlinx-mode.el\")" \
             --eval "(checkdoc-file \"netlinx-mode-font-lock.el\")"
 
-      - name: Load package test
+      - name: Load package
         run: |
           emacs -Q --batch \
             --eval "(add-to-list 'load-path \".\")" \
@@ -57,4 +57,4 @@ jobs:
         run: |
           emacs -Q --batch \
             --eval "(require 'treesit)" \
-            --eval "(message \"Available grammars: %s\" (treesit-available-languages))"
+            --eval "(message \"NetLinx grammar available: %s\" (treesit-language-available-p 'netlinx))"
