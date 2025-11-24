@@ -1,0 +1,356 @@
+{
+    "For Loop": {
+        "prefix": "for",
+        "body": [
+            "for (${1:var} = ${2:start}; ${1:var} <= ${3:end}; ${1:var}++) { $0 }"
+        ]
+    },
+    "If Statement": {
+        "prefix": "if",
+        "body": ["if (${1:expression}) { $0 }"]
+    },
+    "Else Statement": {
+        "prefix": "else",
+        "body": ["else { $0 }"]
+    },
+    "Else If Statement": {
+        "prefix": "else if",
+        "body": ["else if (${1:expression}) { $0 }"]
+    },
+    "While Loop": {
+        "prefix": "while",
+        "body": ["while (${1:expression}) { $0 }"]
+    },
+    "Switch Statement": {
+        "prefix": "switch",
+        "body": ["switch (${1:expression}) { $0 }"]
+    },
+    "Case Statement": {
+        "prefix": "case",
+        "body": ["case ${1:value}: { $0 }"]
+    },
+    "Default Statement": {
+        "prefix": "default",
+        "body": ["default: { $0 }"]
+    },
+    "Select Statement": {
+        "prefix": "select",
+        "body": ["select { $0 }"]
+    },
+    "Active Statement": {
+        "prefix": "active",
+        "body": ["active (${1:expression}): { $0 }"]
+    },
+    "Break Statement": {
+        "prefix": "break",
+        "body": ["break$0"]
+    },
+    "Continue Statement": {
+        "prefix": "continue",
+        "body": ["continue$0"]
+    },
+    "Return Statement": {
+        "prefix": "return",
+        "body": ["return$0"]
+    },
+    "Define Function": {
+        "prefix": "define_function",
+        "body": [
+            "define_function ${1:return_type} ${2:name}(${3:parameters}) { $0 }"
+        ]
+    },
+    "Define Module": {
+        "prefix": "define_module",
+        "body": ["define_module '${1:module}' ${2:id}(${3:arguments})$0"]
+    },
+    "Include Directive": {
+        "prefix": "include",
+        "body": ["#include '${1:file}'$0"]
+    },
+    "#Include Directive": {
+        "prefix": "#include",
+        "body": ["#include '${1:file}'$0"]
+    },
+    "#Define Directive": {
+        "prefix": "#define",
+        "body": ["#DEFINE ${1:name} ${2:value}$0"]
+    },
+    "#If Defined Directive": {
+        "prefix": "#if_defined",
+        "body": ["#IF_DEFINED ${1:name}$0"]
+    },
+    "#If Not Defined Directive": {
+        "prefix": "#if_not_defined",
+        "body": ["#IF_NOT_DEFINED ${1:name}$0"]
+    },
+    "#Else Directive": {
+        "prefix": "#else",
+        "body": ["#ELSE$0"]
+    },
+    "#End If Directive": {
+        "prefix": "#end_if",
+        "body": ["#END_IF$0"]
+    },
+    "#Warn Directive": {
+        "prefix": "#warn",
+        "body": ["#warn '${1:message}'$0"]
+    },
+    "Button Event Handler": {
+        "prefix": "button_event",
+        "body": ["button_event[${1:expression}]$0"]
+    },
+    "Channel Event Handler": {
+        "prefix": "channel_event",
+        "body": ["channel_event[${1:expression}]$0"]
+    },
+    "Data Event Handler": {
+        "prefix": "data_event",
+        "body": ["data_event[${1:expression}]$0"]
+    },
+    "Level Event Handler": {
+        "prefix": "level_event",
+        "body": ["level_event[${1:expression}]$0"]
+    },
+    "Timeline Event Handler": {
+        "prefix": "timeline_event",
+        "body": ["timeline_event[${1:expression}]$0"]
+    },
+    "Custom Event Handler": {
+        "prefix": "custom_event",
+        "body": ["custom_event[${1:expression}]$0"]
+    },
+    "Push Handler": {
+        "prefix": "push",
+        "body": ["push: { $0 }"]
+    },
+    "Release Handler": {
+        "prefix": "release",
+        "body": ["release: { $0 }"]
+    },
+    "Hold Handler": {
+        "prefix": "hold",
+        "body": ["hold[${1:time}]: { $0 }"]
+    },
+    "String Handler": {
+        "prefix": "string",
+        "body": ["string: { $0 }"]
+    },
+    "Online Handler": {
+        "prefix": "online",
+        "body": ["online: { $0 }"]
+    },
+    "Offline Handler": {
+        "prefix": "offline",
+        "body": ["offline: { $0 }"]
+    },
+    "Command Handler": {
+        "prefix": "command",
+        "body": ["command: { $0 }"]
+    },
+    "OnError Handler": {
+        "prefix": "onerror",
+        "body": ["onerror: { $0 }"]
+    },
+    "On Handler": {
+        "prefix": "on",
+        "body": ["on: { $0 }"]
+    },
+    "Off Handler": {
+        "prefix": "off",
+        "body": ["off: { $0 }"]
+    },
+    "Send String": {
+        "prefix": "send_string",
+        "body": ["send_string ${1:device}, ${2:data}$0"]
+    },
+    "Send Command": {
+        "prefix": "send_command",
+        "body": ["send_command ${1:device}, ${2:data}$0"]
+    },
+    "Send Level": {
+        "prefix": "send_level",
+        "body": ["send_level ${1:device}, ${2:value}$0"]
+    },
+    "Create Buffer": {
+        "prefix": "create_buffer",
+        "body": ["create_buffer ${1:device}, ${2:variable}0"]
+    },
+    "Constant": {
+        "prefix": "constant",
+        "body": ["constant $0"]
+    },
+    "Volatile": {
+        "prefix": "volatile",
+        "body": ["volatile $0"]
+    },
+    "Non Volatile": {
+        "prefix": "non_volatile",
+        "body": ["non_volatile $0"]
+    },
+    "Persistent": {
+        "prefix": "persistent",
+        "body": ["persistent $0"]
+    },
+    "Stack Var": {
+        "prefix": "stack_var",
+        "body": ["stack_var $0"]
+    },
+    "Local Var": {
+        "prefix": "local_var",
+        "body": ["local_var $0"]
+    },
+    "Char": {
+        "prefix": "char",
+        "body": ["char ${1:name}$0"]
+    },
+    "Wide Char": {
+        "prefix": "widechar",
+        "body": ["widechar ${1:name}$0"]
+    },
+    "Integer": {
+        "prefix": "integer",
+        "body": ["integer ${1:name}$0"]
+    },
+    "Signed Integer": {
+        "prefix": "sinteger",
+        "body": ["sinteger ${1:name}$0"]
+    },
+    "Long": {
+        "prefix": "long",
+        "body": ["long ${1:name}$0"]
+    },
+    "Signed Long": {
+        "prefix": "slong",
+        "body": ["slong ${1:name}$0"]
+    },
+    "Float": {
+        "prefix": "float",
+        "body": ["float ${1:name}$0"]
+    },
+    "Double": {
+        "prefix": "double",
+        "body": ["double ${1:name}$0"]
+    },
+    "Dev": {
+        "prefix": "dev",
+        "body": ["dev ${1:name}$0"]
+    },
+    "Devchan": {
+        "prefix": "devchan",
+        "body": ["devchan ${1:name}$0"]
+    },
+    "Devlev": {
+        "prefix": "devlev",
+        "body": ["devlev ${1:name}$0"]
+    },
+    "To Statement": {
+        "prefix": "to",
+        "body": ["to[${1:expression}]$0"]
+    },
+    "Min To Statement": {
+        "prefix": "min_to",
+        "body": ["min_to[${1:expression}]$0"]
+    },
+    "On Statement": {
+        "prefix": "on",
+        "body": ["on[${1:expression}]$0"]
+    },
+    "Off Statement": {
+        "prefix": "off",
+        "body": ["off[${1:expression}]$0"]
+    },
+    "Pulse Statement": {
+        "prefix": "pulse",
+        "body": ["pulse[${1:expression}]$0"]
+    },
+    "get_last": {
+        "prefix": "get_last",
+        "body": ["get_last(${1:expression})$0"]
+    },
+    "find_string": {
+        "prefix": "find_string",
+        "body": ["find_string(${1:haystack},${2:needle},${3:startpos})$0"]
+    },
+    "remove_string": {
+        "prefix": "remove_string",
+        "body": ["remove_string(${1:haystack},${2:needle},${3:startpos})$0"]
+    },
+    "mid_string": {
+        "prefix": "mid_string",
+        "body": ["mid_string(${1:variable},${2:startpos},${3:endpos})$0"]
+    },
+    "left_string": {
+        "prefix": "left_string",
+        "body": ["left_string(${1:variable},${2:length})$0"]
+    },
+    "right_string": {
+        "prefix": "right_string",
+        "body": ["right_string(${1:variable},${2:length})$0"]
+    },
+    "upper_string": {
+        "prefix": "upper_string",
+        "body": ["upper_string(${1:variable})$0"]
+    },
+    "lower_string": {
+        "prefix": "lower_string",
+        "body": ["lower_string(${1:variable})$0"]
+    },
+    "length_array": {
+        "prefix": "length_array",
+        "body": ["length_array(${1:variable})$0"]
+    },
+    "max_length_array": {
+        "prefix": "max_length_array",
+        "body": ["max_length_array(${1:variable})$0"]
+    },
+    "length_string": {
+        "prefix": "length_string",
+        "body": ["length_string(${1:variable})$0"]
+    },
+    "set_length_array": {
+        "prefix": "set_length_array",
+        "body": ["set_length_array(${1:variable},${2:length})$0"]
+    },
+    "format": {
+        "prefix": "format",
+        "body": ["format('%${1:format_string}', ${2:argument})$0"]
+    },
+    "atoi": {
+        "prefix": "atoi",
+        "body": ["atoi(${1:string})$0"]
+    },
+    "itoa": {
+        "prefix": "itoa",
+        "body": ["itoa(${1:integer})$0"]
+    },
+    "hextoi": {
+        "prefix": "hextoi",
+        "body": ["hextoi(${1:string})$0"]
+    },
+    "itohex": {
+        "prefix": "itohex",
+        "body": ["itohex(${1:integer})$0"]
+    },
+    "type_cast": {
+        "prefix": "type_cast",
+        "body": ["type_cast(${1:expression})$0"]
+    },
+    "abs_value": {
+        "prefix": "abs_value",
+        "body": ["abs_value(${1:number})$0"]
+    },
+    "timeline_create": {
+        "prefix": "timeline_create",
+        "body": [
+            "timeline_create(${1:id}, ${2:time_array}, ${3:time_array_size}, ${4:absolute}, ${5:repeat)$0"
+        ]
+    },
+    "timeline_kill": {
+        "prefix": "timeline_kill",
+        "body": ["timeline_kill(${1:id})$0"]
+    },
+    "timeline_active": {
+        "prefix": "timeline_active",
+        "body": ["timeline_active(${1:id})$0"]
+    }
+}
