@@ -150,6 +150,21 @@ The file path is configured via `netlinx-mode-help-file'."
   ;; Keybindings
   (define-key netlinx-mode-map (kbd "C-c C-d") #'netlinx-open-help)
 
+  ;; Configure electric pair mode for auto-pairing
+  (setq-local electric-pair-pairs
+              '((?( . ?))
+                (?[ . ?])
+                (?{ . ?})
+                (?" . ?")
+                (?\' . ?\')))
+  ;; Inhibit single quote pairing only after word characters (to avoid issues with contractions)
+  (setq-local electric-pair-inhibit-predicate
+              (lambda (c)
+                (if (char-equal c ?\')
+                    (eq (char-syntax (char-before (1- (point)))) ?w)
+                  (electric-pair-default-inhibit c))))
+  (electric-pair-local-mode 1)
+
   ;; Check if the NetLinx grammar is installed (t forces fresh check after installation)
   (if (treesit-ready-p 'netlinx t)
       (progn
