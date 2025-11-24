@@ -48,7 +48,7 @@
 
 ;; Specify the version/tag of the grammar to use
 (defcustom netlinx-mode-grammar-version
-  "1.0.4"
+  "v1.0.4"
   "Version/tag of the tree-sitter NetLinx grammar to use."
   :type 'string
   :group 'netlinx)
