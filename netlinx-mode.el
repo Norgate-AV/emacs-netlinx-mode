@@ -27,6 +27,17 @@
 (declare-function treesit-induce-language "treesit.c")
 (declare-function treesit-node-type "treesit.c")
 
+;; Declare yasnippet and company variables/functions to silence byte-compiler warnings
+;; These are loaded at runtime by netlinx-mode--ensure-yasnippet and netlinx-mode--ensure-company
+(defvar yas-snippet-dirs)
+(defvar company-backends)
+(declare-function yas-minor-mode "yasnippet")
+(declare-function yas-reload-all "yasnippet")
+(declare-function company-mode "company")
+
+;; Declare electric-pair-mode functions
+(declare-function electric-pair-default-inhibit "elec-pair")
+
 ;; Define the customization group for NetLinx mode
 ;; This creates a section in Emacs' customization interface (M-x customize-group RET netlinx)
 ;; where users can modify NetLinx-related settings. All defcustom variables use :group 'netlinx
@@ -152,10 +163,10 @@ The file path is configured via `netlinx-mode-help-file'."
 
   ;; Configure electric pair mode for auto-pairing
   (setq-local electric-pair-pairs
-              '((?( . ?))
-                (?[ . ?])
+              '((?\( . ?\))
+                (?\[ . ?\])
                 (?{ . ?})
-                (?" . ?")
+                (?\\" . ?\\")
                 (?\' . ?\')))
   ;; Inhibit single quote pairing only after word characters (to avoid issues with contractions)
   (setq-local electric-pair-inhibit-predicate

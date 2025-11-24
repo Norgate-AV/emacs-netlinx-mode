@@ -291,10 +291,10 @@
       (netlinx-mode)
       (should (local-variable-p 'electric-pair-pairs))
       ;; Check that all expected pairs are defined
-      (should (member '(?( . ?)) electric-pair-pairs))
-      (should (member '(?[ . ?]) electric-pair-pairs))
+      (should (member '(?\( . ?\)) electric-pair-pairs))
+      (should (member '(?\[ . ?\]) electric-pair-pairs))
       (should (member '(?{ . ?}) electric-pair-pairs))
-      (should (member '(?" . ?") electric-pair-pairs))
+      (should (member '(?\\" . ?\\") electric-pair-pairs))
       (should (member '(?\' . ?\') electric-pair-pairs)))))
 
 (ert-deftest netlinx-mode-test-electric-pair-inhibit-predicate ()
