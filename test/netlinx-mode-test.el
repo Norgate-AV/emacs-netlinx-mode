@@ -267,6 +267,49 @@
         ;; We should have at least 70 snippets (accounting for some variation)
         (should (>= (length snippet-files) 70))))))
 
+;;; Electric Pair Tests
+
+(ert-deftest netlinx-mode-test-electric-pair-enabled ()
+  "Test that electric-pair-local-mode is enabled."
+  (with-temp-buffer
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
+              ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
+              ((symbol-function 'treesit-parser-create) #'ignore)
+              ((symbol-function 'treesit-major-mode-setup) #'ignore))
+      (netlinx-mode)
+      (should electric-pair-mode))))
+
+(ert-deftest netlinx-mode-test-electric-pair-pairs-configured ()
+  "Test that electric-pair-pairs is configured correctly."
+  (with-temp-buffer
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
+              ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
+              ((symbol-function 'treesit-parser-create) #'ignore)
+              ((symbol-function 'treesit-major-mode-setup) #'ignore))
+      (netlinx-mode)
+      (should (local-variable-p 'electric-pair-pairs))
+      ;; Check that all expected pairs are defined
+      (should (member '(?( . ?)) electric-pair-pairs))
+      (should (member '(?[ . ?]) electric-pair-pairs))
+      (should (member '(?{ . ?}) electric-pair-pairs))
+      (should (member '(?" . ?") electric-pair-pairs))
+      (should (member '(?\' . ?\') electric-pair-pairs)))))
+
+(ert-deftest netlinx-mode-test-electric-pair-inhibit-predicate ()
+  "Test that electric-pair-inhibit-predicate is configured."
+  (with-temp-buffer
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
+              ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
+              ((symbol-function 'treesit-parser-create) #'ignore)
+              ((symbol-function 'treesit-major-mode-setup) #'ignore))
+      (netlinx-mode)
+      (should (local-variable-p 'electric-pair-inhibit-predicate))
+      (should (functionp electric-pair-inhibit-predicate)))))
+
 (provide 'netlinx-mode-test)
 
 ;;; netlinx-mode-test.el ends here
+
