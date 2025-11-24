@@ -21,6 +21,15 @@
 (require 'treesit)
 ;; (require 'netlinx-mode-font-lock)
 
+(declare-function treesit-parser-create "treesit.c")
+(declare-function treesit-induce-language "treesit.c")
+(declare-function treesit-node-type "treesit.c")
+
+(defgroup netlinx nil
+  "Major mode for NetLinx using tree-sitter."
+  :group 'languages
+  :prefix "netlinx-")
+
 ;; Define custom face for device variables (dv/vdv)
 (defface netlinx-device-variable-face
   '((t :inherit font-lock-variable-name-face :slant italic))
@@ -39,14 +48,49 @@
   "Face for NetLinx string quote characters."
   :group 'netlinx-mode)
 
+;; Configuration for tree-sitter grammar
+(defcustom netlinx-mode-grammar-location
+  "https://github.com/Norgate-AV/tree-sitter-netlinx"
+  "Repository URL for the tree-sitter NetLinx grammar."
+  :type 'string
+  :group 'netlinx)
+
+;; Specify the version/tag of the grammar to use
+(defcustom netlinx-mode-grammar-version
+  "1.0.4"
+  "Version/tag of the tree-sitter NetLinx grammar to use."
+  :type 'string
+  :group 'netlinx)
+
+;; Path to NetLinx Keyword Help file
+(defcustom netlinx-mode-help-file
+  (when (eq system-type 'windows-nt)
+    "C:/Program Files (x86)/AMX Control Disk/NetLinx Studio/NetLinxKeywords.chm")
+  "Path to the NetLinx Keyword Help CHM file.
+If set, enables quick access to NetLinx documentation via \\[netlinx-open-help]."
+  :type '(choice (const :tag "Not configured" nil)
+                 (file :tag "Path to CHM file"))
+  :group 'netlinx)
+
 ;; Tell Emacs where to download the NetLinx grammar from
 (add-to-list 'treesit-language-source-alist
-             '(netlinx "https://github.com/Norgate-AV/tree-sitter-netlinx"))
+             `(netlinx ,netlinx-mode-grammar-location ,netlinx-mode-grammar-version))
 
 ;; Auto-install grammar if not present
 (unless (treesit-language-available-p 'netlinx)
   (message "Installing NetLinx tree-sitter grammar...")
   (treesit-install-language-grammar 'netlinx))
+
+;;; Commands
+
+(defun netlinx-open-help ()
+  "Open the NetLinx Keyword Help CHM file.
+The file path is configured via `netlinx-mode-help-file'."
+  (interactive)
+  (if (and netlinx-mode-help-file
+           (file-exists-p netlinx-mode-help-file))
+      (browse-url-default-browser (concat "file://" netlinx-mode-help-file))
+    (message "NetLinx help file not configured or not found. Set `netlinx-mode-help-file' to the CHM file path.")))
 
 ;; Define syntax highlighting rules
 (defvar netlinx-mode--font-lock-settings
@@ -292,6 +336,11 @@
 ;;;###autoload
 (define-derived-mode netlinx-mode prog-mode "NetLinx"
   "Major mode for NetLinx."
+  :group 'netlinx
+
+  ;; Keybindings
+  (define-key netlinx-mode-map (kbd "C-c C-h") #'netlinx-open-help)
+
   ;; Check if the NetLinx grammar is installed
   (when (treesit-ready-p 'netlinx)
     ;; Create parser

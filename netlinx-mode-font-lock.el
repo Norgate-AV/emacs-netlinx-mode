@@ -1,6 +1,6 @@
-;;; netlinx-mode-font-lock.el --- Font-lock settings for netlinx-mode -*- lexical-binding: t; -*-
+;;; netlinx-mode-font-lock.el --- Font-lock settings for NetLinx mode -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2025 Norgate AV
+;; Copyright (C) 2024 Norgate AV
 
 ;; Author: Norgate AV
 ;; Maintainer: Norgate AV
@@ -12,19 +12,45 @@
 
 ;;; Commentary:
 
-;; Tree-sitter font-lock configuration for NetLinx mode.
+;; This file provides font-lock (syntax highlighting) settings for NetLinx mode
+;; using tree-sitter. It defines custom faces and highlighting rules.
 
 ;;; Code:
 
 (require 'treesit)
 
+(defgroup netlinx nil
+  "Major mode for NetLinx using tree-sitter."
+  :group 'languages
+  :prefix "netlinx-")
+
+;; Define custom face for device variables (dv/vdv)
+(defface netlinx-device-variable-face
+  '((t :inherit font-lock-variable-name-face :slant italic))
+  "Face for NetLinx device variables (identifiers starting with dv or vdv)."
+  :group 'netlinx-mode)
+
+;; Define custom face for user-defined types
+(defface netlinx-user-type-face
+  '((t :inherit font-lock-type-face :slant italic))
+  "Face for NetLinx user-defined types (type_identifier)."
+  :group 'netlinx-mode)
+
+;; Define custom face for string quotes
+(defface netlinx-string-quote-face
+  '((t :inherit font-lock-operator-face :weight bold))
+  "Face for NetLinx string quote characters."
+  :group 'netlinx-mode)
+
+;; Define syntax highlighting rules
 (defvar netlinx-mode--font-lock-settings
-  "Return tree-sitter font-lock settings for NetLinx."
   (treesit-font-lock-rules
+   ;; Comments
    :language 'netlinx
    :feature 'comment
    '((comment) @font-lock-comment-face)
 
+   ;; Keywords
    :language 'netlinx
    :feature 'keyword
    '([(break_keyword)
@@ -99,7 +125,6 @@
       (level_event_keyword)
       (timeline_event_keyword)
       (custom_event_keyword)
-      (rebuild_event_keyword)
       (band)
       (bor)
       (bxor)
@@ -109,14 +134,23 @@
       (and)
       (or)
       (not)
-      (xor)
-      (constant_keyword)
+      (xor)] @font-lock-keyword-face)
+
+   ;; Qualifiers
+   :language 'netlinx
+   :feature 'keyword
+   '([(constant_keyword)
       (volatile_keyword)
       (non_volatile_keyword)
-      (persistent_keyword)
-      (local_var_keyword)
+      (persistent_keyword)] @font-lock-keyword-face)
+
+   ;; Storage classes
+   :language 'netlinx
+   :feature 'keyword
+   '([(local_var_keyword)
       (stack_var_keyword)] @font-lock-keyword-face)
 
+   ;; Preprocessor
    :language 'netlinx
    :feature 'preprocessor
    '([(preproc_include_keyword)
@@ -126,63 +160,126 @@
       (preproc_if_defined_keyword)
       (preproc_if_not_defined_keyword)
       (preproc_else_keyword)
-      (preproc_end_if_keyword)] @font-lock-preprocessor-face
-     (preproc_arg) @font-lock-constant-face)
+      (preproc_end_if_keyword)] @font-lock-preprocessor-face)
 
+   ;; Preproc arguments
+   :language 'netlinx
+   :feature 'preprocessor
+   '((preproc_arg) @font-lock-constant-face)
+
+   ;; Operators
+   :language 'netlinx
+   :feature 'operator
+   '(["=" "+" "-" "*" "/" "%" ">" "<" "&" "|" "^" "~"
+      "&&" "||" "==" "!=" "<=" ">=" "<<" ">>" "++" "--" "<>"
+      (range_operator)] @font-lock-operator-face)
+
+   ;; Negation operators
+   :language 'netlinx
+   :feature 'operator
+   '(["!" (not)] @font-lock-negation-char-face)
+
+   ;; Punctuation brackets
+   :language 'netlinx
+   :feature 'bracket
+   '(["(" ")" "{" "}" "[" "]"] @font-lock-bracket-face)
+
+   ;; Punctuation delimiters
+   :language 'netlinx
+   :feature 'delimiter
+   '(["." ";" "," ":"] @font-lock-delimiter-face)
+
+   ;; Literals - strings
    :language 'netlinx
    :feature 'string
-   '((string_literal) @font-lock-string-face)
+   '(((string_literal) @font-lock-builtin-face
+      (:match "^'/.*/'$" @font-lock-builtin-face))
+     (string_literal) @font-lock-string-face
+     (escape_sequence) @font-lock-escape-face
+     "\"" @netlinx-string-quote-face)
 
+   ;; Literals - numbers
    :language 'netlinx
    :feature 'number
    '((number_literal) @font-lock-number-face
      (device_literal) @font-lock-number-face)
 
+   ;; Literals - booleans
    :language 'netlinx
    :feature 'boolean
    '([(true) (false)] @font-lock-constant-face)
 
-   :language 'netlinx
-   :feature 'constant
-   '((system_constant) @font-lock-constant-face
-     ((identifier) @font-lock-constant-face
-      (:match "^[A-Z][A-Z\\d_]*$" @font-lock-constant-face)))
-
+   ;; Types
    :language 'netlinx
    :feature 'type
-   '((type_identifier) @font-lock-type-face
+   '((type_identifier) @netlinx-user-type-face
      (primitive_type) @font-lock-type-face
-     (structured_type) @font-lock-type-face)
+     (structured_type) @font-lock-type-face
+     (system_type) @font-lock-type-face)
 
+   ;; Properties
+   :language 'netlinx
+   :feature 'property
+   '((field_identifier) @font-lock-property-use-face)
+
+   ;; Functions - builtin
+   :language 'netlinx
+   :feature 'function
+   '((call_expression
+      function: (system_function) @font-lock-builtin-face))
+
+   ;; Functions - calls
+   :language 'netlinx
+   :feature 'function
+   '((call_expression
+      function: (identifier) @font-lock-function-call-face))
+
+   ;; Functions - definitions
    :language 'netlinx
    :feature 'function
    '((function_definition
-      name: (identifier) @font-lock-function-name-face)
-     (function_declaration
-      name: (identifier) @font-lock-function-name-face)
-     (call_expression
-      function: (system_function) @font-lock-builtin-face)
-     (call_expression
-      function: (identifier) @font-lock-function-call-face))
+      name: (identifier) @font-lock-function-name-face))
 
+   ;; Functions - declarations
+   :language 'netlinx
+   :feature 'function
+   '((function_declaration
+      name: (identifier) @font-lock-function-name-face))
+
+   ;; Variables
    :language 'netlinx
    :feature 'variable
-   '((compiler_variable) @font-lock-builtin-face
-     (field_identifier) @font-lock-property-use-face)
+   '((system_variable) @font-lock-variable-name-face
+     (compiler_variable) @font-lock-builtin-face)
 
+   ;; Constants - system
    :language 'netlinx
-   :feature 'operator
-   '(["=" "+" "-" "*" "/" "%" ">" "<" "&" "|" "^" "!" "~"
-      "&&" "||" "==" "!=" "<=" ">=" "<<" ">>" "++" "--" "<>"
-      (range_operator)] @font-lock-operator-face)
+   :feature 'constant
+   '((system_constant) @font-lock-constant-face)
 
+   ;; Device variables (dv/vdv prefix) - must be before ALL_CAPS and catch-all
    :language 'netlinx
-   :feature 'bracket
-   '(["(" ")" "{" "}" "[" "]"] @font-lock-bracket-face)
+   :feature 'variable
+   '(((identifier) @netlinx-device-variable-face
+      (:match "^v?dv[a-zA-Z_][a-zA-Z\\d_]*$" @netlinx-device-variable-face)))
 
+   ;; Constants - ALL_CAPS identifiers
    :language 'netlinx
-   :feature 'delimiter
-   '(["." ";" "," ":"] @font-lock-delimiter-face)))
+   :feature 'constant
+   '(((identifier) @font-lock-constant-face
+      (:match "^[A-Z][A-Z\\d_]*$" @font-lock-constant-face)))
+
+   ;; Error nodes
+   :language 'netlinx
+   :feature 'error
+   '((ERROR) @font-lock-warning-face
+     (MISSING) @font-lock-warning-face)
+
+   ;; Identifiers (catch-all for regular variables, must be last)
+   :language 'netlinx
+   :feature 'variable
+   '((identifier) @font-lock-variable-name-face))
+  "Tree-sitter font-lock settings for NetLinx mode.")
 
 (provide 'netlinx-mode-font-lock)
 
