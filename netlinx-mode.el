@@ -39,11 +39,21 @@
 ;; Load font-lock (syntax highlighting) settings
 (require 'netlinx-mode-font-lock)
 
+;; Load indentation settings
+(require 'netlinx-mode-indent)
+
 ;; Configuration for tree-sitter grammar
 (defcustom netlinx-mode-grammar-location
   "https://github.com/Norgate-AV/tree-sitter-netlinx"
   "Repository URL for the tree-sitter NetLinx grammar."
   :type 'string
+  :group 'netlinx)
+
+;; Indentation configuration
+(defcustom netlinx-mode-indent-offset 4
+  "Number of spaces for each indentation step in `netlinx-mode'."
+  :type 'integer
+  :safe 'integerp
   :group 'netlinx)
 
 ;; Specify the version/tag of the grammar to use
@@ -105,6 +115,18 @@ The file path is configured via `netlinx-mode-help-file'."
       (progn
         ;; Create parser
         (treesit-parser-create 'netlinx)
+
+        ;; Comments
+        (setq-local comment-start "// ")
+        (setq-local comment-end "")
+        (setq-local comment-start-skip "//+\\s-*")
+        (setq-local comment-multi-line t)
+
+        ;; Indentation
+        (setq-local treesit-simple-indent-rules netlinx-mode--indent-rules)
+        (setq-local indent-line-function #'treesit-indent)
+        (setq-local electric-indent-chars
+                    (append "{}():;," electric-indent-chars))
 
         ;; Setup font-lock
         (setq-local treesit-font-lock-settings netlinx-mode--font-lock-settings)
