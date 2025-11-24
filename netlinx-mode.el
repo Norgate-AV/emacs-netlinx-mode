@@ -101,24 +101,26 @@ The file path is configured via `netlinx-mode-help-file'."
   (define-key netlinx-mode-map (kbd "C-c C-h") #'netlinx-open-help)
 
   ;; Check if the NetLinx grammar is installed (t forces fresh check after installation)
-  (when (treesit-ready-p 'netlinx t)
-    ;; Create parser
-    (treesit-parser-create 'netlinx)
+  (if (treesit-ready-p 'netlinx t)
+      (progn
+        ;; Create parser
+        (treesit-parser-create 'netlinx)
 
-    ;; Setup font-lock
-    (setq-local treesit-font-lock-settings netlinx-mode--font-lock-settings)
-    (setq-local treesit-font-lock-level 4)
-    (setq-local treesit-font-lock-feature-list
-                '((comment)
-                  (keyword string preprocessor)
-                  (constant number type boolean)
-                  (function variable property operator bracket delimiter error)))
+        ;; Setup font-lock
+        (setq-local treesit-font-lock-settings netlinx-mode--font-lock-settings)
+        (setq-local treesit-font-lock-level 4)
+        (setq-local treesit-font-lock-feature-list
+                    '((comment)
+                      (keyword string preprocessor)
+                      (constant number type boolean)
+                      (function variable property operator bracket delimiter error)))
 
-    ;; Improve incremental parsing
-    (setq-local treesit-font-lock-recompute-features t)
+        ;; Improve incremental parsing
+        (setq-local treesit-font-lock-recompute-features t)
 
-    ;; Enable tree-sitter
-    (treesit-major-mode-setup)))
+        ;; Enable tree-sitter
+        (treesit-major-mode-setup))
+    (message "NetLinx: tree-sitter grammar not available. Check *Messages* for errors.")))
 
 ;; Associate .axs and .axi file extensions with netlinx-mode
 ;;;###autoload
