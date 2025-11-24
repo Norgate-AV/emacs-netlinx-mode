@@ -13,6 +13,13 @@ jobs:
   checks:
     name: Run Checks
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        emacs_version:
+          - "29.1"
+          - "29.4"
+          - "snapshot"
+      fail-fast: false
 
     steps:
       - name: Checkout code
@@ -20,5 +27,50 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Placeholder for future checks
-        run: echo "No checks defined yet."
+      - name: Setup Emacs
+        uses: jcs090218/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs_version }}
+
+      - name: Byte compile
+        run: |
+          emacs -Q --batch \
+            --eval "(setq byte-compile-error-on-warn t)" \
+            -f batch-byte-compile netlinx-mode.el netlinx-mode-font-lock.el
+
+      - name: Install package-lint
+        run: |
+          emacs -Q --batch \
+            --eval "(require 'package)" \
+            --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
+            --eval "(package-initialize)" \
+            --eval "(package-refresh-contents)" \
+            --eval "(package-install 'package-lint)"
+
+      - name: Run package-lint
+        run: |
+          emacs -Q --batch \
+            --eval "(require 'package)" \
+            --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
+            --eval "(package-initialize)" \
+            --eval "(require 'package-lint)" \
+            -f package-lint-batch-and-exit netlinx-mode.el netlinx-mode-font-lock.el
+
+      - name: Check documentation
+        run: |
+          emacs -Q --batch \
+            --eval "(checkdoc-file \"netlinx-mode.el\")" \
+            --eval "(checkdoc-file \"netlinx-mode-font-lock.el\")"
+
+      - name: Load package test
+        run: |
+          emacs -Q --batch \
+            --eval "(add-to-list 'load-path \".\")" \
+            --eval "(require 'netlinx-mode)" \
+            --eval "(message \"Package loaded successfully\")"
+
+      - name: Check tree-sitter grammar availability
+        run: |
+          emacs -Q --batch \
+            --eval "(require 'treesit)" \
+            --eval "(message \"Available grammars: %s\" (treesit-available-languages))"
