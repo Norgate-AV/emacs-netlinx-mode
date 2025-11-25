@@ -22,11 +22,8 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
-# Just a placeholder for now
-exit 0
-
 # Files to update
-FILES=()
+FILES=("netlinx-mode.el")
 
 # Check if all files exist before attempting to modify them
 for file in "${FILES[@]}"; do
@@ -37,7 +34,15 @@ for file in "${FILES[@]}"; do
 done
 
 # Update version in each file
+if ! sed -i "s/^;; Version: .*$/;; Version: ${VERSION}/" netlinx-mode.el; then
+    echo "Error: sed command failed"
+    exit 1
+fi
 
 # Verify the changes were made
+if ! grep -q "^;; Version: ${VERSION}$" netlinx-mode.el; then
+    echo "Error: Failed to update version in netlinx-mode.el"
+    exit 1
+fi
 
 echo "Version bumped to $VERSION in ${FILES[*]}"
