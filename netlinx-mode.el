@@ -47,6 +47,9 @@
   :group 'languages
   :prefix "netlinx-")
 
+;; Load helper functions
+(require 'netlinx-mode-helpers)
+
 ;; Load font-lock (syntax highlighting) settings
 (require 'netlinx-mode-font-lock)
 
@@ -72,7 +75,7 @@
 
 ;; Path to NetLinx Keyword Help file
 ;; "C:\Program Files (x86)\AMX Control Disc\NetLinx Studio 4\NetLinx-Keywords.chm"
-(defcustom netlinx-mode-help-file
+(defcustom netlinx-mode-keyword-help-file
   (when (eq system-type 'windows-nt)
     "C:/Program Files (x86)/AMX Control Disc/NetLinx Studio 4/NetLinx-Keywords.chm")
   "Path to the NetLinx Keyword Help CHM file.
@@ -83,7 +86,7 @@ If set, enables quick access to NetLinx keyword documentation via \\[netlinx-ope
 
 ;; Path to Standard NetLinx API (SNAPI) Help file
 ;; "C:\Program Files (x86)\AMX Control Disc\NetLinx Studio 4\Standard_NetLinx_API.chm"
-(defcustom netlinx-mode-help-file
+(defcustom netlinx-mode-snapi-help-file
   (when (eq system-type 'windows-nt)
     "C:/Program Files (x86)/AMX Control Disc/NetLinx Studio 4/Standard_NetLinx_API.chm")
   "Path to the NetLinx SNAPI Help CHM file.
@@ -143,14 +146,23 @@ If set, enables quick access to NetLinx SNAPI documentation via \\[netlinx-open-
 
 ;;; Commands
 
-(defun netlinx-open-help ()
+(defun netlinx-open-keyword-help ()
   "Open the NetLinx Keyword Help CHM file.
-The file path is configured via `netlinx-mode-help-file'."
+The file path is configured via `netlinx-mode-keyword-help-file'."
   (interactive)
-  (if (and netlinx-mode-help-file
-           (file-exists-p netlinx-mode-help-file))
-      (start-process "netlinx-help" nil "open" netlinx-mode-help-file)
-    (message "NetLinx help file not configured or not found. Set `netlinx-mode-help-file' to the CHM file path.")))
+  (if (and netlinx-mode-keyword-help-file
+           (file-exists-p netlinx-mode-keyword-help-file))
+      (start-process "netlinx-keyword-help" nil "open" netlinx-mode-keyword-help-file)
+    (message "NetLinx keyword help file not configured or not found. Set `netlinx-mode-keyword-help-file' to the CHM file path.")))
+
+(defun netlinx-open-snapi-help ()
+  "Open the NetLinx SNAPI Help CHM file.
+The file path is configured via `netlinx-mode-snapi-help-file'."
+  (interactive)
+  (if (and netlinx-mode-snapi-help-file
+           (file-exists-p netlinx-mode-snapi-help-file))
+      (start-process "netlinx-snapi-help" nil "open" netlinx-mode-snapi-help-file)
+    (message "NetLinx SNAPI help file not configured or not found. Set `netlinx-mode-snapi-help-file' to the CHM file path.")))
 
 ;; Create a new major mode for NetLinx files called netlinx-mode
 ;; Use prog-mode as the parent mode (for programming languages)

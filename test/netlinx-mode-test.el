@@ -371,8 +371,46 @@
   (should (fboundp 'netlinx-mode--defun-name))
   (should (fboundp 'netlinx-mode--child-of-type)))
 
+;;; Helper Function Tests
+
+(ert-deftest netlinx-mode-test-helper-functions-defined ()
+  "Test that all helper functions are defined and callable."
+  (should (fboundp 'netlinx-mode--same-line?))
+  (should (fboundp 'netlinx-mode--line-beginning-position-of-point))
+  (should (fboundp 'netlinx-mode--parent-is-and-sibling-on-same-line))
+  (should (fboundp 'netlinx-mode--parent-is-and-sibling-not-on-same-line))
+  (should (fboundp 'netlinx-mode--ancestor-node))
+  (should (fboundp 'netlinx-mode--ancestor-is))
+  (should (fboundp 'netlinx-mode--ancestor-bol))
+  (should (fboundp 'netlinx-mode--ancestor-is-and-sibling-on-same-line))
+  (should (fboundp 'netlinx-mode--ancestor-is-and-sibling-not-on-same-line))
+  (should (fboundp 'netlinx-mode--grand-parent-bol))
+  (should (fboundp 'netlinx-mode--grand-parent-first-sibling)))
+
+(ert-deftest netlinx-mode-test-same-line-helper ()
+  "Test the same-line? helper function."
+  (with-temp-buffer
+    (insert "line 1\nline 2\nline 3")
+    (goto-char (point-min))
+    ;; Points on same line
+    (should (netlinx-mode--same-line? 1 3))
+    (should (netlinx-mode--same-line? 1 6))
+    ;; Points on different lines
+    (should-not (netlinx-mode--same-line? 1 8))
+    (should-not (netlinx-mode--same-line? 6 15))))
+
+(ert-deftest netlinx-mode-test-higher-order-helpers-return-functions ()
+  "Test that higher-order helpers return functions."
+  (should (functionp (netlinx-mode--parent-is-and-sibling-on-same-line "argument_list" 0)))
+  (should (functionp (netlinx-mode--parent-is-and-sibling-not-on-same-line "argument_list" 0)))
+  (should (functionp (netlinx-mode--ancestor-is "function_definition")))
+  (should (functionp (netlinx-mode--ancestor-bol "function_definition")))
+  (should (functionp (netlinx-mode--ancestor-is-and-sibling-on-same-line "compound_statement" 0)))
+  (should (functionp (netlinx-mode--ancestor-is-and-sibling-not-on-same-line "compound_statement" 0))))
+
 (provide 'netlinx-mode-test)
 
 ;;; netlinx-mode-test.el ends here
+
 
 

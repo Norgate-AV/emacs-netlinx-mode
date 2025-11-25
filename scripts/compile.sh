@@ -7,7 +7,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Files to compile (in dependency order)
-FILES=("netlinx-mode-font-lock.el" "netlinx-mode-indent.el" "netlinx-mode-navigation.el" "netlinx-mode.el")
+FILES=(
+    "netlinx-mode-helpers.el"
+    "netlinx-mode-font-lock.el"
+    "netlinx-mode-indent.el"
+    "netlinx-mode-navigation.el"
+    "netlinx-mode.el"
+)
 
 # Build absolute paths
 ABSOLUTE_FILE_PATHS=()
