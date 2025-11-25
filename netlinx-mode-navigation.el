@@ -27,13 +27,13 @@ Return nil if there is no name or if NODE is not a defun node."
      (when-let* ((func-def (netlinx-mode--child-of-type node "function_definition"))
                  (name-node (treesit-node-child-by-field-name func-def "name")))
        (treesit-node-text name-node t)))
-    
+
     ;; Module definitions: define_module
     ("define_module"
      (when-let* ((module-def (netlinx-mode--child-of-type node "module_definition"))
                  (name-node (treesit-node-child-by-field-name module-def "module_name")))
        (treesit-node-text name-node t)))
-    
+
     ;; Event declarators
     ((or "button_event_declarator"
          "channel_event_declarator"
@@ -42,16 +42,16 @@ Return nil if there is no name or if NODE is not a defun node."
          "custom_event_declarator"
          "timeline_event_declarator")
      ;; For events, use the first child as the name (the event target/device)
-     (when-let ((first-child (treesit-node-child node 0)))
+     (when-let* ((first-child (treesit-node-child node 0)))
        (treesit-node-text first-child t)))
-    
+
     ;; Sections (DEFINE_DEVICE, DEFINE_VARIABLE, etc.)
     ("section"
      (treesit-node-text node t))
-    
+
     ;; Struct definitions
     ("struct_specifier"
-     (when-let ((name-node (treesit-node-child-by-field-name node "name")))
+     (when-let* ((name-node (treesit-node-child-by-field-name node "name")))
        (treesit-node-text name-node t)))))
 
 (defun netlinx-mode--child-of-type (node type)
