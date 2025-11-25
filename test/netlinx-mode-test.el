@@ -309,7 +309,58 @@
       (should (local-variable-p 'electric-pair-inhibit-predicate))
       (should (functionp electric-pair-inhibit-predicate)))))
 
+;;; Navigation and Imenu Tests
+
+(ert-deftest netlinx-mode-test-navigation-defun-type-configured ()
+  "Test that treesit-defun-type-regexp is configured."
+  (with-temp-buffer
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
+              ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
+              ((symbol-function 'treesit-parser-create) #'ignore)
+              ((symbol-function 'treesit-major-mode-setup) #'ignore))
+      (netlinx-mode)
+      (should (local-variable-p 'treesit-defun-type-regexp))
+      (should (stringp treesit-defun-type-regexp))
+      ;; Check that the regexp is set to the expected variable
+      (should (equal treesit-defun-type-regexp netlinx-mode--defun-type-regexp)))))
+
+(ert-deftest netlinx-mode-test-navigation-defun-name-function-configured ()
+  "Test that treesit-defun-name-function is configured."
+  (with-temp-buffer
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
+              ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
+              ((symbol-function 'treesit-parser-create) #'ignore)
+              ((symbol-function 'treesit-major-mode-setup) #'ignore))
+      (netlinx-mode)
+      (should (local-variable-p 'treesit-defun-name-function))
+      (should (functionp treesit-defun-name-function))
+      (should (eq treesit-defun-name-function #'netlinx-mode--defun-name)))))
+
+(ert-deftest netlinx-mode-test-imenu-configured ()
+  "Test that imenu settings are configured."
+  (with-temp-buffer
+    (cl-letf (((symbol-function 'netlinx-mode--ensure-grammar) #'ignore)
+              ((symbol-function 'netlinx-mode--setup-snippets) #'ignore)
+              ((symbol-function 'treesit-ready-p) (lambda (&rest _) t))
+              ((symbol-function 'treesit-parser-create) #'ignore)
+              ((symbol-function 'treesit-major-mode-setup) #'ignore))
+      (netlinx-mode)
+      (should (local-variable-p 'treesit-simple-imenu-settings))
+      (should (listp treesit-simple-imenu-settings))
+      ;; Should have at least several categories
+      (should (>= (length treesit-simple-imenu-settings) 5)))))
+
+(ert-deftest netlinx-mode-test-navigation-variables-defined ()
+  "Test that navigation-related variables are defined."
+  (should (boundp 'netlinx-mode--defun-type-regexp))
+  (should (boundp 'netlinx-mode--imenu-settings))
+  (should (fboundp 'netlinx-mode--defun-name))
+  (should (fboundp 'netlinx-mode--child-of-type)))
+
 (provide 'netlinx-mode-test)
 
 ;;; netlinx-mode-test.el ends here
+
 

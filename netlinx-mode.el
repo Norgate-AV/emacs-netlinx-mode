@@ -53,6 +53,9 @@
 ;; Load indentation settings
 (require 'netlinx-mode-indent)
 
+;; Load navigation and imenu settings
+(require 'netlinx-mode-navigation)
+
 ;; Configuration for tree-sitter grammar
 (defcustom netlinx-mode-grammar-location
   "https://github.com/Norgate-AV/tree-sitter-netlinx"
@@ -75,11 +78,23 @@
   :group 'netlinx)
 
 ;; Path to NetLinx Keyword Help file
+;; "C:\Program Files (x86)\AMX Control Disc\NetLinx Studio 4\NetLinx-Keywords.chm"
 (defcustom netlinx-mode-help-file
   (when (eq system-type 'windows-nt)
-    "C:/Program Files (x86)/AMX Control Disk/NetLinx Studio/NetLinxKeywords.chm")
+    "C:/Program Files (x86)/AMX Control Disc/NetLinx Studio 4/NetLinx-Keywords.chm")
   "Path to the NetLinx Keyword Help CHM file.
-If set, enables quick access to NetLinx documentation via \\[netlinx-open-help]."
+If set, enables quick access to NetLinx keyword documentation via \\[netlinx-open-keyword-help]."
+  :type '(choice (const :tag "Not configured" nil)
+                 (file :tag "Path to CHM file"))
+  :group 'netlinx)
+
+;; Path to Standard NetLinx API (SNAPI) Help file
+;; "C:\Program Files (x86)\AMX Control Disc\NetLinx Studio 4\Standard_NetLinx_API.chm"
+(defcustom netlinx-mode-help-file
+  (when (eq system-type 'windows-nt)
+    "C:/Program Files (x86)/AMX Control Disc/NetLinx Studio 4/Standard_NetLinx_API.chm")
+  "Path to the NetLinx SNAPI Help CHM file.
+If set, enables quick access to NetLinx SNAPI documentation via \\[netlinx-open-snapi-help]."
   :type '(choice (const :tag "Not configured" nil)
                  (file :tag "Path to CHM file"))
   :group 'netlinx)
@@ -193,6 +208,13 @@ The file path is configured via `netlinx-mode-help-file'."
         (setq-local indent-line-function #'treesit-indent)
         (setq-local electric-indent-chars
                     (append "{}():;," electric-indent-chars))
+
+        ;; Navigation
+        (setq-local treesit-defun-type-regexp netlinx-mode--defun-type-regexp)
+        (setq-local treesit-defun-name-function #'netlinx-mode--defun-name)
+
+        ;; Imenu
+        (setq-local treesit-simple-imenu-settings netlinx-mode--imenu-settings)
 
         ;; Setup font-lock
         (setq-local treesit-font-lock-settings netlinx-mode--font-lock-settings)
