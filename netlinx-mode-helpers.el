@@ -13,6 +13,15 @@
 
 ;;; Code:
 
+(require 'treesit)
+
+;; Declare tree-sitter functions from treesit.c
+(declare-function treesit-parent-until "treesit.c")
+(declare-function treesit-node-start "treesit.c")
+(declare-function treesit-node-type "treesit.c")
+(declare-function treesit-node-child "treesit.c")
+(declare-function treesit-node-parent "treesit.c")
+
 (defun netlinx-mode--same-line? (point-1 point-2)
   "Return t if POINT-1 and POINT-2 are on the same line."
   (equal (netlinx-mode--line-beginning-position-of-point point-1)

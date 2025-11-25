@@ -21,7 +21,8 @@
   "Test that custom variables are defined with correct types."
   (should (custom-variable-p 'netlinx-mode-grammar-location))
   (should (custom-variable-p 'netlinx-mode-grammar-version))
-  (should (custom-variable-p 'netlinx-mode-help-file))
+  (should (custom-variable-p 'netlinx-mode-keyword-help-file))
+  (should (custom-variable-p 'netlinx-mode-snapi-help-file))
   (should (custom-variable-p 'netlinx-mode-indent-offset))
   (should (custom-variable-p 'netlinx-mode-align-argument-list-to-first-sibling))
   (should (custom-variable-p 'netlinx-mode-align-device-array-to-first-sibling))
@@ -97,21 +98,21 @@
 
 ;;; Command Tests
 
-(ert-deftest netlinx-mode-test-open-help-no-file ()
-  "Test netlinx-open-help with no help file configured."
-  (let ((netlinx-mode-help-file nil))
+(ert-deftest netlinx-mode-test-open-keyword-help-no-file ()
+  "Test netlinx-open-keyword-help with no help file configured."
+  (let ((netlinx-mode-keyword-help-file nil))
     (with-temp-buffer
       (cl-letf (((symbol-function 'message) #'ignore))
         ;; Should not error when file is not configured
-        (should-not (netlinx-open-help))))))
+        (should-not (netlinx-open-keyword-help))))))
 
-(ert-deftest netlinx-mode-test-open-help-nonexistent-file ()
-  "Test netlinx-open-help with nonexistent file."
-  (let ((netlinx-mode-help-file "/nonexistent/file.chm"))
+(ert-deftest netlinx-mode-test-open-keyword-help-nonexistent-file ()
+  "Test netlinx-open-keyword-help with nonexistent file."
+  (let ((netlinx-mode-keyword-help-file "/nonexistent/file.chm"))
     (with-temp-buffer
       (cl-letf (((symbol-function 'message) #'ignore))
         ;; Should not error when file doesn't exist
-        (should-not (netlinx-open-help))))))
+        (should-not (netlinx-open-keyword-help))))))
 
 ;;; Tree-sitter Configuration Tests
 

@@ -179,7 +179,8 @@ The file path is configured via `netlinx-mode-snapi-help-file'."
   (netlinx-mode--setup-snippets)
 
   ;; Keybindings
-  (define-key netlinx-mode-map (kbd "C-c C-d") #'netlinx-open-help)
+  (define-key netlinx-mode-map (kbd "C-c C-d") #'netlinx-open-keyword-help)
+  (define-key netlinx-mode-map (kbd "C-c C-s") #'netlinx-open-snapi-help)
 
   ;; Configure electric pair mode for auto-pairing
   (setq-local electric-pair-pairs
