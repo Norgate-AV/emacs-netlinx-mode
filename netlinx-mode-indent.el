@@ -12,6 +12,67 @@
 
 ;;; Code:
 
+(defgroup netlinx nil
+  "Major mode for NetLinx using tree-sitter."
+  :group 'languages
+  :prefix "netlinx-")
+
+;; Indentation configuration
+(defcustom netlinx-mode-indent-offset 4
+  "Number of spaces for each indentation step in `netlinx-mode'."
+  :type 'integer
+  :safe 'integerp
+  :group 'netlinx)
+
+(defcustom netlinx-mode-align-argument-list-to-first-sibling nil
+  "Align argument lists to the first sibling.
+
+If set to t, the following indentation is used:
+
+    send_command device, \"'PROPERTY-Name,Value1,Value2,',
+                          'Value3'\"
+
+Otherwise, the indentation is:
+
+    send_command device, \"'PROPERTY-Name,Value1,Value2,',
+        'Value3'\""
+  :type 'boolean
+  :safe 'booleanp
+  :group 'netlinx)
+
+(defcustom netlinx-mode-align-device-array-to-first-sibling nil
+  "Align device array elements to the first sibling.
+
+If set to t, the following indentation is used:
+
+    dvDevices = { dvPanel1,
+                  dvPanel2,
+                  dvPanel3 }
+
+Otherwise, the indentation is:
+
+    dvDevices = { dvPanel1,
+        dvPanel2,
+        dvPanel3 }"
+  :type 'boolean
+  :safe 'booleanp
+  :group 'netlinx)
+
+;; Helper function for conditional indentation
+(defun netlinx-mode--indent-argument-list (node parent &rest _)
+  "Indent argument list NODE relative to PARENT.
+Uses `netlinx-mode-align-argument-list-to-first-sibling' to determine alignment."
+  (if netlinx-mode-align-argument-list-to-first-sibling
+      (treesit-node-start (treesit-node-child parent 0))
+    `(parent-bol ,netlinx-mode-indent-offset)))
+
+(defun netlinx-mode--indent-initializer-list (node parent &rest _)
+  "Indent initializer list NODE relative to PARENT.
+Uses `netlinx-mode-align-device-array-to-first-sibling' to determine alignment."
+  (if netlinx-mode-align-device-array-to-first-sibling
+      (treesit-node-start (treesit-node-child parent 0))
+    `(parent-bol ,netlinx-mode-indent-offset)))
+
 ;; Indentation rules for tree-sitter
 (defvar netlinx-mode--indent-rules
   `((netlinx
@@ -44,11 +105,11 @@
      ((parent-is "compound_statement") parent-bol netlinx-mode-indent-offset)
 
      ;; Array and struct initializers
-     ((parent-is "initializer_list") parent-bol netlinx-mode-indent-offset)
+     ((parent-is "initializer_list") netlinx-mode--indent-initializer-list)
 
      ;; Parameter lists
      ((parent-is "parameter_list") parent-bol netlinx-mode-indent-offset)
-     ((parent-is "argument_list") parent-bol netlinx-mode-indent-offset)
+     ((parent-is "argument_list") netlinx-mode--indent-argument-list)
 
      ;; Default: maintain current indentation for other nodes
      (no-node parent-bol 0)))

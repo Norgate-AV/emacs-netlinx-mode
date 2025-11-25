@@ -63,13 +63,6 @@
   :type 'string
   :group 'netlinx)
 
-;; Indentation configuration
-(defcustom netlinx-mode-indent-offset 4
-  "Number of spaces for each indentation step in `netlinx-mode'."
-  :type 'integer
-  :safe 'integerp
-  :group 'netlinx)
-
 ;; Specify the version/tag of the grammar to use
 (defcustom netlinx-mode-grammar-version
   "v1.0.4"

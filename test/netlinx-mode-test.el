@@ -23,10 +23,22 @@
   (should (custom-variable-p 'netlinx-mode-grammar-version))
   (should (custom-variable-p 'netlinx-mode-help-file))
   (should (custom-variable-p 'netlinx-mode-indent-offset))
+  (should (custom-variable-p 'netlinx-mode-align-argument-list-to-first-sibling))
+  (should (custom-variable-p 'netlinx-mode-align-device-array-to-first-sibling))
   (should (stringp netlinx-mode-grammar-location))
   (should (stringp netlinx-mode-grammar-version))
   (should (integerp netlinx-mode-indent-offset))
-  (should (= netlinx-mode-indent-offset 4)))
+  (should (= netlinx-mode-indent-offset 4))
+  (should (booleanp netlinx-mode-align-argument-list-to-first-sibling))
+  (should (booleanp netlinx-mode-align-device-array-to-first-sibling)))
+
+(ert-deftest netlinx-mode-test-indent-alignment-options-safe ()
+  "Test that indent alignment options have safety predicates."
+  (should (get 'netlinx-mode-align-argument-list-to-first-sibling 'safe-local-variable))
+  (should (get 'netlinx-mode-align-device-array-to-first-sibling 'safe-local-variable))
+  (should (funcall (get 'netlinx-mode-align-argument-list-to-first-sibling 'safe-local-variable) t))
+  (should (funcall (get 'netlinx-mode-align-argument-list-to-first-sibling 'safe-local-variable) nil))
+  (should-not (funcall (get 'netlinx-mode-align-argument-list-to-first-sibling 'safe-local-variable) "not-a-boolean")))
 
 ;;; Face Tests
 
